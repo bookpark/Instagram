@@ -6,7 +6,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class PostCommnet:
+class PostComment(models.Model):
     post = models.ForeignKey(Post)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
