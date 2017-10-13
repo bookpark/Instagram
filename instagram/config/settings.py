@@ -28,6 +28,7 @@ config_secret_common = json.loads(config_secret_common_str)
 
 # instagram_project/instagram/media/
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 # instagram_project/instagram/static/
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
