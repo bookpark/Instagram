@@ -19,9 +19,9 @@ def post_upload(request):
     return render(request, 'post/post_upload.html')
 
 
-def post_comment(request):
-    if request.method == 'POST':
-        comment = request.POST.get('comment')
-        Post.objects.create(comment=comment)
-        return redirect('post_list')
-    return render(request, 'post/post_list.html')
+# def post_comment(request):
+#     if request.method == 'POST':
+#         comment = request.POST.get('comment')
+#         Post.objects.create(comment=comment)
+#         return redirect('post_list')
+#     return render(request, 'post/post_list.html')
