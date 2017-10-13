@@ -26,8 +26,10 @@ f.close()
 # json.loads(<json string>) 함수 호출, JSON 텍스트 파일의 내용을 Python dict 형태로 변환, config_secret_common 변수에 할당
 config_secret_common = json.loads(config_secret_common_str)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+# instagram_project/instagram/media/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# instagram_project/instagram/static/
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # dict 변수의 django > secret_key에 해당하는 value를 SECRET_KEY 변수에 할당
@@ -49,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
-    
+
     'post',
 ]
 
