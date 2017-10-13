@@ -20,7 +20,7 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 # instagram_project/.config_secret/
 CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
 # 'settings_common.json' 읽기
-f = open(CONFIG_SECRET_DIR, 'settings_common.json')
+f = open(os.path.join(CONFIG_SECRET_DIR, 'settings_common.json'))
 config_secret_common_str = f.read()
 f.close()
 # json.loads(<json string>) 함수 호출, JSON 텍스트 파일의 내용을 Python dict 형태로 변환, config_secret_common 변수에 할당
@@ -84,12 +84,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = config_secret_common['django']['databases']
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
