@@ -14,9 +14,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from post.views import post_list, post_upload
+from post.views import post_list, post_upload, post_detail
 
 urlpatterns = [
     url(r'^posts/$', post_list, name='post_list'),
+    url(r'posts/(?P<pk>\d+)', post_detail, name='post_detail'),
     url(r'^posts/upload/$', post_upload, name='post_upload'),
 ]
