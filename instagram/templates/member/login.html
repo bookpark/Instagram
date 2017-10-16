@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     {% if user.is_active %}
-        <h2>환영합니다, {{ user.username }} 님</h2>
-        <a href="{% url 'signout' %}">로그아웃</a>
+        <h2>{{ user.username }} 안녕?</h2>
+{#        <a href="{% url 'signout' %}">Logout</a>#}
     {% else %}
-        {% if form.errors %}
-            <p>유저네임 또는 비밀번호가 일치하지 않습니다.</p>
-        {% endif %}
         <form action="" method="post">
             {% csrf_token %}
             {{ form }}
-            <button type="submit">로그인</button>
+            <button type="submit">Login</button>
         </form>
     {% endif %}
 {% endblock %}
