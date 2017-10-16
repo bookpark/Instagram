@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .forms import CommentForm
@@ -21,11 +22,12 @@ def post_detail(request, pk):
 
 
 def post_upload(request):
-    if request.method == 'POST' and request.FILES['photo']:
+    if request.method == 'POST' and request.FILES.get('photo'):
         photo = request.FILES['photo']
         Post.objects.create(photo=photo)
         return redirect('post_list')
-    return render(request, 'post/post_upload.html')
+    else:
+        return render(request, 'post/post_upload.html')
 
 
 def post_comment(request, pk):
@@ -41,3 +43,12 @@ def post_comment(request, pk):
         return render(request, 'post/post_comment.html', {
             'form': form,
         })
+
+
+def post_delete(request, pk):
+    if request.method == 'POST':
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return redirect('post_list')
+    return HttpResponse('Permission Denied', status=403)
+
