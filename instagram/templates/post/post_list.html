@@ -6,7 +6,7 @@
     <div>
         {% for post in posts %}
             <div>
-                <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{ post.photo.url }}"></a>
+                <a href="{% url 'post_detail' post_pk=post.pk %}"><img src="{{ post.photo.url }}"></a>
             </div>
             {% for comment in post.comment_set.all %}
                 <div>

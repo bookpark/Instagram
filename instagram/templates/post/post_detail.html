@@ -22,7 +22,7 @@
             </form>
         </div>
         <div>
-            <form action="{% url 'post_delete' pk=post.pk %}" method="post">
+            <form action="{% url 'post_delete' post_pk=post.pk %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="지우기">
             </form>

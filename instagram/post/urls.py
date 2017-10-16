@@ -18,9 +18,9 @@ from post.views import post_list, post_upload, post_detail, post_delete
 
 urlpatterns = [
     url(r'^posts/$', post_list, name='post_list'),
-    url(r'posts/(?P<pk>\d+)/$', post_detail, name='post_detail'),
+    url(r'posts/(?P<post_pk>\d+)/$', post_detail, name='post_detail'),
     url(r'^posts/upload/$', post_upload, name='post_upload'),
     # url(r'^posts/(?P<pk>\d+)/comments/new', post_comment, name='post_comment'),
-    url(r'^posts/(?P<pk>\d+)/delete/$', post_delete, name='post_delete')
+    url(r'^posts/(?P<post_pk>\d+)/delete/$', post_delete, name='post_delete'),
 
 ]

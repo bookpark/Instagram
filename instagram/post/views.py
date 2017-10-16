@@ -13,8 +13,8 @@ def post_list(request):
     return render(request, 'post/post_list.html', context)
 
 
-def post_detail(request, pk):
-    post = Post.objects.get(pk=pk)
+def post_detail(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
     context = {
         'post': post,
     }
@@ -40,7 +40,6 @@ def post_upload(request):
         }
     return render(request, 'post/post_upload.html', context)
 
-
 # def post_comment(request):
 #     if request.method == 'POST':
 #         form = CommentForm(request.POST)
@@ -56,9 +55,9 @@ def post_upload(request):
 #         })
 
 
-def post_delete(request, pk):
+def post_delete(request, post_pk):
     if request.method == 'POST':
-        post = Post.objects.get(pk=pk)
+        post = Post.objects.get(pk=post_pk)
         post.delete()
         return redirect('post_list')
     return HttpResponse('Permission Denied', status=403)
