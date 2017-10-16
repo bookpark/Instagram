@@ -12,6 +12,7 @@ class PostForm(forms.Form):
     photo = forms.ImageField()
     # description = forms.CharField(widget=forms.Textarea)
 
+
 # class Meta:
 #     model = Post
 #     fields = (
@@ -21,5 +22,9 @@ class PostForm(forms.Form):
 
 class CommentForm(forms.Form):
     content = forms.CharField(
-        widget=forms.Textarea,
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        ),
     )

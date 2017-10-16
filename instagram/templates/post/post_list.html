@@ -16,13 +16,14 @@
                 <p>아직 댓글이 없습니다</p>
             {% endfor %}
             <div>
-                <form action="" method="post">
+                <form action="{% url 'post_comment' post_pk=post.pk %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="entry_id">
-                    <input type="text" name="comment" style="height: 30px; margin-bottom: 30px; font-size: 18px;" size="48"
-                           placeholder="댓글 달기...">
-                    <input type="submit" value="게시">
+                    {{ form }}
+                    <button class="btn-primary btn btn-block">게시</button>
                 </form>
+            </div>
+            <div>
+                <hr>
             </div>
         {% endfor %}
     </div>

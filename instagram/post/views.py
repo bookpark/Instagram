@@ -7,16 +7,20 @@ from .models import Post, Comment
 
 def post_list(request):
     posts = Post.objects.all()
+    comment_form = CommentForm()
     context = {
         'posts': posts,
+        'form': comment_form,
     }
     return render(request, 'post/post_list.html', context)
 
 
 def post_detail(request, post_pk):
     post = Post.objects.get(pk=post_pk)
+    comment_form = CommentForm()
     context = {
         'post': post,
+        'form': comment_form,
     }
     return render(request, 'post/post_detail.html', context)
 
@@ -51,12 +55,6 @@ def post_comment(request, post_pk):
                 content=form.cleaned_data['content'],
             )
             return redirect('post_detail', post_pk=post_pk)
-    else:
-        form = CommentForm()
-        context = {
-            'form': form,
-        }
-    return render(request, 'post/post_comment.html', context)
 
 
 def post_delete(request, post_pk):
