@@ -20,6 +20,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('post.urls')),
+    url(r'^', include('member.urls')),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
