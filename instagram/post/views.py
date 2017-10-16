@@ -54,6 +54,10 @@ def post_comment(request, post_pk):
                 post=post,
                 content=form.cleaned_data['content'],
             )
+            # 생성 후 Post의 detail 화면으로 이동
+            next = request.GET.get('next')
+            if next:
+                return redirect(next)
             return redirect('post_detail', post_pk=post_pk)
 
 

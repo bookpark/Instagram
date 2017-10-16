@@ -5,18 +5,19 @@
     </div>
     <div>
         {% for post in posts %}
-            <div>
+            <div id="post-{{ post.pk }}">
                 <a href="{% url 'post_detail' post_pk=post.pk %}"><img src="{{ post.photo.url }}"></a>
             </div>
-            {% for comment in post.comments.all %}
-                <div>
-                    <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
-                </div>
-            {% empty %}
-                <p>아직 댓글이 없습니다</p>
-            {% endfor %}
+            <div id="post-comments-{{ post.pk }}">
+                {% for comment in post.comments.all %}
+                    <div><p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p></div>
+                {% empty %}
+                    <p>아직 댓글이 없습니다</p>
+                {% endfor %}
+            </div>
             <div>
-                <form action="{% url 'post_comment' post_pk=post.pk %}" method="post">
+                <form action="{% url 'post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}"
+                      method="post">
                     {% csrf_token %}
                     {{ form }}
                     <button class="btn-primary btn btn-block">게시</button>
