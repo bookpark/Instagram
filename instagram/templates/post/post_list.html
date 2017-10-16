@@ -8,7 +8,7 @@
             <div>
                 <a href="{% url 'post_detail' post_pk=post.pk %}"><img src="{{ post.photo.url }}"></a>
             </div>
-            {% for comment in post.comment_set.all %}
+            {% for comment in post.comments.all %}
                 <div>
                     <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
                 </div>

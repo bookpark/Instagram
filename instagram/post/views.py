@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import PostForm
-from .models import Post
+from .forms import PostForm, CommentForm
+from .models import Post, Comment
 
 
 def post_list(request):
@@ -36,23 +36,27 @@ def post_upload(request):
         # GET 요청에선 이 부분이 무조건 실행
         # POST 요청에선 form.is_valid()를 통과하지 못하면 이 부분이 실행
         context = {
-            'form': form
+            'form': form,
         }
     return render(request, 'post/post_upload.html', context)
 
-# def post_comment(request):
-#     if request.method == 'POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.post = Post.objects.get(comment=comment)
-#             comment.save()
-#             return redirect('post_detail')
-#         else:
-#             form = CommentForm()
-#         return render(request, 'post/post_comment.html', {
-#             'form': form,
-#         })
+
+def post_comment(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            Comment.objects.create(
+                post=post,
+                content=form.cleaned_data['content'],
+            )
+            return redirect('post_detail', post_pk=post_pk)
+    else:
+        form = CommentForm()
+        context = {
+            'form': form,
+        }
+    return render(request, 'post/post_comment.html', context)
 
 
 def post_delete(request, post_pk):

@@ -5,7 +5,7 @@
     </a>
     <div>
         <img src="{{ post.photo.url }}">
-        {% for comment in post.comment_set.all %}
+        {% for comment in post.comments.all %}
             <div>
                 <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
             </div>
@@ -13,13 +13,7 @@
             <p>아직 댓글이 없습니다</p>
         {% endfor %}
         <div>
-            <form action="" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="entry_id">
-                <input type="text" name="comment" style="height: 30px; margin-bottom: 30px; font-size: 18px;" size="48"
-                       placeholder="댓글 달기...">
-                <input type="submit" value="게시">
-            </form>
+            <a href="{% url 'post_comment' post_pk=post.pk %}">댓글 달기</a>
         </div>
         <div>
             <form action="{% url 'post_delete' post_pk=post.pk %}" method="post">
