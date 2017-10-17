@@ -17,11 +17,10 @@ def signup(request):
             password = form.cleaned_data['password']
             if User.objects.filter(username=username).exists():
                 return HttpResponse(f'Username {username} already exists')
-            user = User.objects.create_user(
+            User.objects.create_user(
                 username=username,
                 password=password,
             )
-            user.save()
         return redirect('signin')
         # return HttpResponse(f'{user.username}, {user.password}')
     else:
