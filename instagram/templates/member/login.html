@@ -8,8 +8,8 @@
     {% else %}
         <form action="" method="post" class="">
             {% csrf_token %}
-            <input type="text" name="username">
-            <input type="password" name="password">
+            <input type="text" name="username" class="form-control">
+            <input type="password" name="password" class="form-control">
             <button class="btn-primary btn-block" type="submit">Login</button>
         </form>
     {% endif %}

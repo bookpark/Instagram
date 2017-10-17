@@ -20,12 +20,40 @@ class SignupForm(forms.Form):
         )
     )
 
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
     # clean_<field_name>
     def clean_username(self):
         data = self.cleaned_data['username']
         if User.objects.filter(username=data).exists():
             raise forms.ValidationError(f'Username {data} already exists.')
         return data
+
+    def clean_password2(self):
+        password = self.cleaned_data['password']
+        password2 = self.cleaned_data['password2']
+        if password != password2:
+            raise forms.ValidationError('Password does not match.')
+        return password2
+
+    def clean(self):
+        if self.is_valid():
+            setattr(self, 'signup', self._signup)
+        return self.cleaned_data
+
+    def _signup(self):
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        User.objects.create_user(
+            username=username,
+            password=password,
+        )
 
 
 class SigninForm(forms.Form):

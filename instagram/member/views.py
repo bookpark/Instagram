@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, get_user_model
 # from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from member.forms import SignupForm, SigninForm
@@ -13,12 +14,7 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            User.objects.create_user(
-                username=username,
-                password=password,
-            )
+            form.signup()
             return redirect('signin')
     else:
         form = SignupForm
@@ -40,6 +36,8 @@ def signin(request):
         if form.is_valid():
             form.signin(request)
             return redirect('post_list')
+        else:
+            return HttpResponse('Login failed')
     else:
         return render(request, 'member/login.html')
 
