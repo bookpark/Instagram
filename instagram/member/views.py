@@ -1,8 +1,12 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout, get_user_model
+# from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from member.forms import SignupForm, LoginForm
+
+# User model을 가져올 때는 이 함수를 써서 import 하는 것을 추천
+User = get_user_model()
 
 
 def signup(request):
@@ -11,6 +15,8 @@ def signup(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+            if User.objects.filter(username=username).exists():
+                return HttpResponse(f'Username {username} already exists')
             user = User.objects.create_user(
                 username=username,
                 password=password,
