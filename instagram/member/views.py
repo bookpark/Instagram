@@ -20,8 +20,6 @@ def signup(request):
                 password=password,
             )
             return redirect('signin')
-        print(form.cleaned_data)
-        print(form.errors)
     else:
         form = SignupForm
     context = {
