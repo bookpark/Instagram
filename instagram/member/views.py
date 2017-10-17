@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 # from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from member.forms import SignupForm, LoginForm
@@ -9,25 +8,25 @@ from member.forms import SignupForm, LoginForm
 User = get_user_model()
 
 
+# Custom validation
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            if User.objects.filter(username=username).exists():
-                return HttpResponse(f'Username {username} already exists')
             User.objects.create_user(
                 username=username,
                 password=password,
             )
-        return redirect('signin')
-        # return HttpResponse(f'{user.username}, {user.password}')
+            return redirect('signin')
+        print(form.cleaned_data)
+        print(form.errors)
     else:
         form = SignupForm
-        context = {
-            'form': form,
-        }
+    context = {
+        'form': form,
+    }
     return render(request, 'member/signup.html', context)
 
 
