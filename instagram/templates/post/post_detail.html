@@ -4,7 +4,7 @@
         목록으로 돌아가기
     </a>
     <div>
-        <img src="{{ post.photo.url }}">
+        <img src="{{ post.photo.url }}" class="img-post">
         {% for comment in post.comments.all %}
             <div>
                 <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>

@@ -36,10 +36,12 @@ def signin(request):
         if form.is_valid():
             form.signin(request)
             return redirect('post_list')
-        else:
-            return HttpResponse('Login failed')
     else:
-        return render(request, 'member/login.html')
+        form = SigninForm
+    context = {
+        'form': form,
+    }
+    return render(request, 'member/login.html', context)
 
 
 def signout(request):

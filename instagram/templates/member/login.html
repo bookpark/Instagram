@@ -4,12 +4,11 @@
     <hr>
     {% if user.is_authenticated %}
         <h2>{{ user.username }} 안녕?</h2>
-{#        <a href="{% url 'signout' %}">Logout</a>#}
+        {#        <a href="{% url 'signout' %}">Logout</a>#}
     {% else %}
-        <form action="" method="post" class="">
+        <form action="" method="post" class="form-horizontal">
             {% csrf_token %}
-            <input type="text" name="username" class="form-control">
-            <input type="password" name="password" class="form-control">
+            {% include 'include/form-horizontal.html' %}
             <button class="btn-primary btn-block" type="submit">Login</button>
         </form>
     {% endif %}
