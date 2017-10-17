@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+    <h2>Login</h2>
+    <hr>
     {% if user.is_active %}
         <h2>{{ user.username }} 안녕?</h2>
 {#        <a href="{% url 'signout' %}">Logout</a>#}
