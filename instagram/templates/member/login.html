@@ -6,9 +6,10 @@
         <h2>{{ user.username }} 안녕?</h2>
 {#        <a href="{% url 'signout' %}">Logout</a>#}
     {% else %}
-        <form action="" method="post">
+        <form action="" method="post" class="">
             {% csrf_token %}
-            {{ form }}
+            <input type="text" name="username">
+            <input type="password" name="password">
             <button class="btn-primary btn-block" type="submit">Login</button>
         </form>
     {% endif %}
