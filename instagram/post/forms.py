@@ -22,6 +22,7 @@ class PostForm(forms.Form):
 
 class CommentForm(forms.Form):
     content = forms.CharField(
+        label='',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',

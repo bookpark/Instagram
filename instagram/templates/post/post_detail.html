@@ -11,13 +11,15 @@
             {% else %}
             {% endif %}
             {% if post.photo %}
-                <img src="{{ post.photo.url }}" alt="" class="img-post">
+                <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+                    <img src="{{ post.photo.url }}" alt="" class="img-post">
+                </a>
             {% else %}
                 <h3>이미지 파일이 없습니다</h3>
             {% endif %}
             <div class="body-content">
                 {% for comment in post.comments.all %}
-                    <div><b>{{ comment.author }}</b>: {{ comment.content }} | {{ comment.created_at }}</div>
+                    <div><b>{{ comment.author }}</b>: {{ comment.content }}</div>
                     <div>
                         {% if request.user == comment.author %}
                             <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
@@ -30,6 +32,7 @@
                 {% empty %}
                     <p>아직 댓글이 없습니다</p>
                 {% endfor %}
+                {{ post.created_at }}
                 <form action="{% url 'post:post_comment' post_pk=post.pk %}" method="POST">
                     {% csrf_token %}
                     {{ form }}
