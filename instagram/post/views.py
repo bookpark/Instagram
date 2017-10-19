@@ -44,19 +44,22 @@ def post_upload(request):
         form = PostForm()
         # GET 요청에선 이 부분이 무조건 실행
         # POST 요청에선 form.is_valid()를 통과하지 못하면 이 부분이 실행
-        context = {
-            'form': form,
-        }
+    context = {
+        'form': form,
+    }
     return render(request, 'post/post_upload.html', context)
 
 
 def post_comment(request, post_pk):
+    if not request.user.is_authenticated:
+        return redirect('member:signin')
     post = get_object_or_404(Post, pk=post_pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             Comment.objects.create(
                 post=post,
+                author=request.user,
                 content=form.cleaned_data['content'],
             )
             # 생성 후 Post의 detail 화면으로 이동
