@@ -3,19 +3,18 @@
     <div>
         {% for post in posts %}
             <div id="post-{{ post.pk }}" class="panel panel-default post">
-                <div class="panel-heading">Head</div>
+                <div class="panel-heading">{{ post.author }}</div>
                 <div class="panel-body">
                     <a href="{% url 'post:post_detail' post_pk=post.pk %}">
                         <img src="{{ post.photo.url }}" class="img-post">
                     </a>
                     <div class="body-content">
                         {% for comment in post.comments.all %}
-                            <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
+                            <p><b>{{ comment.author }}</b>: {{ comment.content }} | {{ comment.created_at }}</p>
                         {% empty %}
                             <p>아직 댓글이 없습니다</p>
                         {% endfor %}
-                        <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}"
-                              method="POST">
+                        <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}" method="POST">
                             {% csrf_token %}
                             {{ form }}
                             <button class="btn btn-primary btn-block">댓글달기</button>
