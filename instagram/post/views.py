@@ -35,10 +35,10 @@ def post_upload(request):
         if form.is_valid():
             # 유효할 경우 Post 인스턴스를 생성 및 저장
             Post.objects.create(
-                author=form.cleaned_data['author'],
+                author=request.user,
                 photo=form.cleaned_data['photo'],
             )
-            return redirect('post:post_list')
+            return redirect('post:post_listg')
     else:
         # GET 요청의 경우 빈 PostForm 인스턴스를 생성해서 템플릿에 전달
         form = PostForm()
