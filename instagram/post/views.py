@@ -70,8 +70,8 @@ def post_comment(request, post_pk):
 
 
 def post_delete(request, post_pk):
-    if request.method == 'POST':
-        post = Post.objects.get(pk=post_pk)
+    post = Post.objects.get(pk=post_pk)
+    if request.method == 'POST' and request.user == post.author:
         post.delete()
         return redirect('post:post_list')
-    return HttpResponse('Permission Denied', status=403)
+    return HttpResponse('작성자만 삭제할 수 있습니다.', status=403)

@@ -5,6 +5,13 @@
             <div id="post-{{ post.pk }}" class="panel panel-default post">
                 <div class="panel-heading">{{ post.author }}</div>
                 <div class="panel-body">
+                    {% if request.user == post.author %}
+                        <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn-danger btn btn-block">포스트 삭제</button>
+                        </form>
+                    {% else %}
+                    {% endif %}
                     <a href="{% url 'post:post_detail' post_pk=post.pk %}">
                         <img src="{{ post.photo.url }}" class="img-post">
                     </a>
@@ -14,7 +21,8 @@
                         {% empty %}
                             <p>아직 댓글이 없습니다</p>
                         {% endfor %}
-                        <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}" method="POST">
+                        <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}"
+                              method="POST">
                             {% csrf_token %}
                             {{ form }}
                             <button class="btn btn-primary btn-block">댓글달기</button>
