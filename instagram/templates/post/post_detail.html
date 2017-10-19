@@ -1,44 +1,4 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="panel panel-default post">
-        <div class="panel-heading">{{ post.author }}</div>
-        <div class="panel-body">
-            {% if request.user == post.author %}
-                <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn-danger btn btn-block">포스트 삭제</button>
-                </form>
-            {% else %}
-            {% endif %}
-            {% if post.photo %}
-                <a href="{% url 'post:post_detail' post_pk=post.pk %}">
-                    <img src="{{ post.photo.url }}" alt="" class="img-post">
-                </a>
-            {% else %}
-                <h3>이미지 파일이 없습니다</h3>
-            {% endif %}
-            <div class="body-content">
-                {% for comment in post.comments.all %}
-                    <div><b>{{ comment.author }}</b>: {{ comment.content }}</div>
-                    <div>
-                        {% if request.user == comment.author %}
-                            <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
-                                {% csrf_token %}
-                                <button class="btn-danger">댓글 삭제</button>
-                            </form>
-                        {% else %}
-                        {% endif %}
-                    </div>
-                {% empty %}
-                    <p>아직 댓글이 없습니다</p>
-                {% endfor %}
-                {{ post.created_at }}
-                <form action="{% url 'post:post_comment' post_pk=post.pk %}" method="POST">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button class="btn-primary btn btn-block">댓글달기</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    {% include 'include/post.html' with form=form %}
 {% endblock %}
