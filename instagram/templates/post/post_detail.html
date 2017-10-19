@@ -1,27 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="post-detail">
-        {% if request.user == post.author %}
-            <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST">
-                {% csrf_token %}
-                <button class="btn-danger btn btn-block">포스트 삭제</button>
-            </form>
-        {% else %}
-        {% endif %}
-        {% if post.photo %}
-            <img src="{{ post.photo.url }}" alt="" class="img-post">
-        {% else %}
-            <h3>이미지 파일이 없습니다</h3>
-        {% endif %}
-        {% for comment in post.comments.all %}
-            <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
-        {% empty %}
-            <p>아직 댓글이 없습니다</p>
-        {% endfor %}
-        <form action="{% url 'post:post_comment' post_pk=post.pk %}" method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <button class="btn-primary btn btn-block">댓글달기</button>
-        </form>
+    <div class="panel panel-default post">
+        <div class="panel-heading">{{ post.author }}</div>
+        <div class="panel-body">
+            {% if request.user == post.author %}
+                <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn-danger btn btn-block">포스트 삭제</button>
+                </form>
+            {% else %}
+            {% endif %}
+            {% if post.photo %}
+                <img src="{{ post.photo.url }}" alt="" class="img-post">
+            {% else %}
+                <h3>이미지 파일이 없습니다</h3>
+            {% endif %}
+            <div class="body-content">
+                {% for comment in post.comments.all %}
+                    <div><b>{{ comment.author }}</b>: {{ comment.content }} | {{ comment.created_at }}</div>
+                    <div>
+                        {% if request.user == comment.author %}
+                            <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn-danger">댓글 삭제</button>
+                            </form>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>아직 댓글이 없습니다</p>
+                {% endfor %}
+                <form action="{% url 'post:post_comment' post_pk=post.pk %}" method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button class="btn-primary btn btn-block">댓글달기</button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}

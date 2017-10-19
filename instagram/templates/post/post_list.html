@@ -17,7 +17,16 @@
                     </a>
                     <div class="body-content">
                         {% for comment in post.comments.all %}
-                            <p><b>{{ comment.author }}</b>: {{ comment.content }} | {{ comment.created_at }}</p>
+                            <div><b>{{ comment.author }}</b>: {{ comment.content }} | {{ comment.created_at }}</div>
+                            <div>
+                                {% if request.user == comment.author %}
+                                    <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
+                                        {% csrf_token %}
+                                        <button class="btn-danger">댓글 삭제</button>
+                                    </form>
+                                {% else %}
+                                {% endif %}
+                            </div>
                         {% empty %}
                             <p>아직 댓글이 없습니다</p>
                         {% endfor %}

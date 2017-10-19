@@ -75,3 +75,11 @@ def post_delete(request, post_pk):
         post.delete()
         return redirect('post:post_list')
     return HttpResponse('작성자만 삭제할 수 있습니다.', status=403)
+
+
+def comment_delete(request, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.method == 'POST' and request.user == comment.author:
+        comment.delete()
+        return redirect('post:post_list')
+    return HttpResponse('작성자만 삭제할 수 있습니다.', status=403)
