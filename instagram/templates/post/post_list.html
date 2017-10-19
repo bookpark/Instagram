@@ -2,7 +2,7 @@
 {% block content %}
     {% for post in posts %}
         <div id="post-{{ post.pk }}">
-            <a href="{% url 'post_detail' post_pk=post.pk %}"><img src="{{ post.photo.url }}" class="img-post"></a>
+            <a href="{% url 'post:post_detail' post_pk=post.pk %}"><img src="{{ post.photo.url }}" class="img-post"></a>
         </div>
         <div id="post-comments-{{ post.pk }}">
             {% for comment in post.comments.all %}
@@ -12,7 +12,7 @@
             {% endfor %}
         </div>
         <div>
-            <form action="{% url 'post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}"
+            <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}"
                   method="post">
                 {% csrf_token %}
                 {{ form }}

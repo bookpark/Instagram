@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <a href="{% url 'post_list' %}">
+    <a href="{% url 'post:post_list' %}">
         목록으로 돌아가기
     </a>
     <div>
@@ -13,14 +13,14 @@
             <p>아직 댓글이 없습니다</p>
         {% endfor %}
         <div>
-            <form action="{% url 'post_comment' post_pk=post.pk%}" method="post">
+            <form action="{% url 'post:post_comment' post_pk=post.pk%}" method="post">
                 {% csrf_token %}
                 {{ form }}
                 <button class="btn-primary btn btn-block">게시</button>
             </form>
         </div>
         <div>
-            <form action="{% url 'post_delete' post_pk=post.pk %}" method="post">
+            <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="지우기">
             </form>

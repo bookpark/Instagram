@@ -19,8 +19,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('post.urls')),
-    url(r'^', include('member.urls')),
+    url(r'^', include('post.urls', namespace='post')),
+    url(r'^', include('member.urls', namespace='member')),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,

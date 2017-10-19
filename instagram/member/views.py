@@ -14,7 +14,7 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             form.signup()
-            return redirect('signin')
+            return redirect('member:signin')
     else:
         form = SignupForm
     context = {
@@ -34,7 +34,7 @@ def signin(request):
         form = SigninForm(request.POST)
         if form.is_valid():
             form.signin(request)
-            return redirect('post_list')
+            return redirect('post:post_list')
     else:
         form = SigninForm
     context = {
@@ -45,4 +45,4 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return redirect('post_list')
+    return redirect('post:post_list')

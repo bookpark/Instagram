@@ -12,6 +12,13 @@ class SignupForm(forms.Form):
             }
         )
     )
+    age = forms.IntegerField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -50,9 +57,11 @@ class SignupForm(forms.Form):
     def _signup(self):
         username = self.cleaned_data['username']
         password = self.cleaned_data['password']
+        age = self.cleaned_data['age']
         User.objects.create_user(
             username=username,
             password=password,
+            age=age,
         )
 
 

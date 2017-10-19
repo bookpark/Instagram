@@ -33,7 +33,7 @@ def post_upload(request):
         if form.is_valid():
             # 유효할 경우 Post 인스턴스를 생성 및 저장
             Post.objects.create(photo=form.cleaned_data['photo'])
-        return redirect('post_list')
+        return redirect('post:post_list')
     else:
         # GET 요청의 경우 빈 PostForm 인스턴스를 생성해서 템플릿에 전달
         form = PostForm()
@@ -58,12 +58,12 @@ def post_comment(request, post_pk):
             next = request.GET.get('next')
             if next:
                 return redirect(next)
-            return redirect('post_detail', post_pk=post_pk)
+            return redirect('post:post_detail', post_pk=post_pk)
 
 
 def post_delete(request, post_pk):
     if request.method == 'POST':
         post = Post.objects.get(pk=post_pk)
         post.delete()
-        return redirect('post_list')
+        return redirect('post:post_list')
     return HttpResponse('Permission Denied', status=403)
