@@ -26,14 +26,19 @@ def post_detail(request, post_pk):
 
 
 def post_upload(request):
+    if not request.user.is_authenticated:
+        return redirect('member:signin')
     if request.method == 'POST':
         # POST 요청의 경우 PostForm 인스턴스 생성과정에서 request.POST, request.FILES 사용
         form = PostForm(request.POST, request.FILES)
         # Form 생성 과정에서 전달된 데이터들이 Form의 모든 field들에 유효한지 검사
         if form.is_valid():
             # 유효할 경우 Post 인스턴스를 생성 및 저장
-            Post.objects.create(photo=form.cleaned_data['photo'])
-        return redirect('post:post_list')
+            Post.objects.create(
+                author=form.cleaned_data['author'],
+                photo=form.cleaned_data['photo'],
+            )
+            return redirect('post:post_list')
     else:
         # GET 요청의 경우 빈 PostForm 인스턴스를 생성해서 템플릿에 전달
         form = PostForm()
