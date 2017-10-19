@@ -47,7 +47,7 @@ STATICFILES_DIRS = [
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Custom user model 사용
-AUTH_USER_MODEL = 'member.MyUser'
+AUTH_USER_MODEL = 'member.User'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # dict 변수의 django > secret_key에 해당하는 value를 SECRET_KEY 변수에 할당

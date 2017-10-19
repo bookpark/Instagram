@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from member.models import MyUser
+from member.models import User
 
-admin.site.register(MyUser)
+admin.site.register(User)
