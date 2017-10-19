@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import json
 import os
 
+AUTH_USER_MODEL = 'member.MyUser'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # instagram_project/instagram/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,7 +41,6 @@ STATICFILES_DIRS = [
 # instagram_project/instagram/templates
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 # dict 변수의 django > secret_key에 해당하는 value를 SECRET_KEY 변수에 할당
 SECRET_KEY = config_secret_common['django']['secret_key']
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'post',
+    'member',
 ]
 
 MIDDLEWARE = [
