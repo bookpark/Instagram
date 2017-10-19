@@ -16,7 +16,7 @@ def post_list(request):
 
 
 def post_detail(request, post_pk):
-    post = Post.objects.get(pk=post_pk)
+    post = get_object_or_404(Post, pk=post_pk)
     comment_form = CommentForm()
     context = {
         'post': post,
