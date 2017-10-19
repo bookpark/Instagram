@@ -4,7 +4,8 @@
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form }}
-            <button type="submit">업로드</button>
+            <hr>
+            <button type="submit" class="btn-primary btn btn-block">업로드</button>
         </form>
     </div>
 {% endblock %}
