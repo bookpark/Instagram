@@ -22,5 +22,4 @@ urlpatterns = [
     url(r'^posts/upload/$', post_upload, name='post_upload'),
     url(r'^posts/(?P<post_pk>\d+)/comments/add/', post_comment, name='post_comment'),
     url(r'^posts/(?P<post_pk>\d+)/delete/$', post_delete, name='post_delete'),
-
 ]
