@@ -1,12 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}Signup{% endblock %}
 {% block content %}
-    <div class="signup">
-        <h2>Signup</h2>
-        <hr>
-        <form action="" method="post" class="form-horizontal">
-            {% csrf_token %}
-            {% include 'include/form-horizontal.html' %}
-            <button class="btn-primary btn-block">Signup</button>
-        </form>
-    </div>
+<div class="signup">
+	{% include 'include/form-horizontal.html' with form=form submit_text='회원가입' %}
+</div>
 {% endblock %}

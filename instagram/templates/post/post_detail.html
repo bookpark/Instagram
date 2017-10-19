@@ -1,29 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-    <a href="{% url 'post:post_list' %}">
-        목록으로 돌아가기
-    </a>
-    <div>
-        <img src="{{ post.photo.url }}" class="img-post">
+    <div class="post-detail">
+        {% if post.photo %}
+            <img src="{{ post.photo.url }}" alt="" class="img-post">
+        {% else %}
+            <h3>이미지 파일이 없습니다</h3>
+        {% endif %}
         {% for comment in post.comments.all %}
-            <div>
-                <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
-            </div>
+            <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
         {% empty %}
             <p>아직 댓글이 없습니다</p>
         {% endfor %}
-        <div>
-            <form action="{% url 'post:post_comment' post_pk=post.pk%}" method="post">
-                {% csrf_token %}
-                {{ form }}
-                <button class="btn-primary btn btn-block">게시</button>
-            </form>
-        </div>
-        <div>
-            <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="post">
-                {% csrf_token %}
-                <input type="submit" value="지우기">
-            </form>
-        </div>
+        <form action="{% url 'post:post_comment' post_pk=post.pk %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn-primary btn btn-block">작성</button>
+        </form>
+
     </div>
 {% endblock %}

@@ -1,26 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% for post in posts %}
-        <div id="post-{{ post.pk }}">
-            <a href="{% url 'post:post_detail' post_pk=post.pk %}"><img src="{{ post.photo.url }}" class="img-post"></a>
-        </div>
-        <div id="post-comments-{{ post.pk }}">
-            {% for comment in post.comments.all %}
-                <div><p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p></div>
-            {% empty %}
-                <p>아직 댓글이 없습니다</p>
-            {% endfor %}
-        </div>
-        <div>
-            <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}"
-                  method="post">
-                {% csrf_token %}
-                {{ form }}
-                <button class="btn-primary btn btn-block">게시</button>
-            </form>
-        </div>
-        <div>
-            <hr>
-        </div>
-    {% endfor %}
+    <div>
+        {% for post in posts %}
+            <div id="post-{{ post.pk }}" class="panel panel-default post">
+                <div class="panel-heading">Head</div>
+                <div class="panel-body">
+                    <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+                        <img src="{{ post.photo.url }}" class="img-post">
+                    </a>
+                    <div class="body-content">
+                        {% for comment in post.comments.all %}
+                            <p><strong>{{ comment.content }}</strong> | {{ comment.created_at }}</p>
+                        {% empty %}
+                            <p>아직 댓글이 없습니다</p>
+                        {% endfor %}
+                        <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/post/#post-comments-{{ post.pk }}"
+                              method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            <button class="btn btn-primary btn-block">댓글달기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
