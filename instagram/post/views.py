@@ -38,7 +38,7 @@ def post_upload(request):
                 author=request.user,
                 photo=form.cleaned_data['photo'],
             )
-            return redirect('post:post_listg')
+            return redirect('post:post_list')
     else:
         # GET 요청의 경우 빈 PostForm 인스턴스를 생성해서 템플릿에 전달
         form = PostForm()
