@@ -59,11 +59,11 @@ def post_comment(request, post_pk):
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            Comment.objects.create(
-                post=post,
-                author=request.user,
-                content=form.cleaned_data['content'],
-            )
+            comment = form.save(commit=False)
+            comment.author = request.user
+            # post와 연결
+            comment.post = post
+            comment.save()
             # 생성 후 Post의 detail 화면으로 이동
             next = request.GET.get('next')
             if next:
