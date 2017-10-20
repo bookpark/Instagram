@@ -13,7 +13,7 @@ class SignupForm(forms.Form):
         )
     )
     age = forms.IntegerField(
-        widget=forms.TextInput(
+        widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
             }
