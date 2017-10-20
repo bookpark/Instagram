@@ -33,11 +33,13 @@ def post_upload(request):
         form = PostForm(request.POST, request.FILES)
         # Form 생성 과정에서 전달된 데이터들이 Form의 모든 field들에 유효한지 검사
         if form.is_valid():
-            # 유효할 경우 Post 인스턴스를 생성 및 저장
-            Post.objects.create(
-                author=request.user,
-                photo=form.cleaned_data['photo'],
-            )
+            # 1. 커스텀 메서드 사용
+            # form.save(author=request.user)
+
+            # 2. 기존 Django의 ModelForm 방식 사용
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect('post:post_list')
     else:
         # GET 요청의 경우 빈 PostForm 인스턴스를 생성해서 템플릿에 전달
