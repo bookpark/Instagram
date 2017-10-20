@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -70,11 +71,11 @@ def post_comment(request, post_pk):
 
 
 def post_delete(request, post_pk):
-    post = Post.objects.get(pk=post_pk)
+    post = get_object_or_404(Post, pk=post_pk)
     if request.method == 'POST' and request.user == post.author:
         post.delete()
         return redirect('post:post_list')
-    return HttpResponse('작성자만 삭제할 수 있습니다.', status=403)
+    raise PermissionDenied
 
 
 def comment_delete(request, comment_pk):
@@ -82,4 +83,4 @@ def comment_delete(request, comment_pk):
     if request.method == 'POST' and request.user == comment.author:
         comment.delete()
         return redirect('post:post_list')
-    return HttpResponse('작성자만 삭제할 수 있습니다.', status=403)
+    raise PermissionDenied
