@@ -6,7 +6,7 @@ from .models import User
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = BaseUserAdmin.fieldsets + (
-        ('Additional info', {'fields': ('img_profile', 'age', 'like_posts',)}),
+        ('추가 정보', {'fields': ('img_profile', 'age', 'like_posts',)}),
     )
 
 
