@@ -31,8 +31,7 @@
                 <p>아직 댓글이 없습니다</p>
             {% endfor %}
             {{ post.created_at }}
-            <form action="{% url 'post:post_comment' post_pk=post.pk %}?next=/posts/#post-comments-{{ post.pk }}"
-                  method="POST">
+            <form action="{% url 'post:post_comment' post_pk=post.pk %}?next={% if post_type == 'list' %}/posts/#post-{{ post.pk }}{% elif post_type == 'detail' %}{% url 'post:post_detail' post_pk=post.pk %}{% endif %}" method="POST">
                 {% csrf_token %}
                 {{ form }}
                 <button class="btn btn-primary btn-block">댓글달기</button>
