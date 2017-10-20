@@ -1,6 +1,7 @@
 <div id="post-{{ post.pk }}" class="panel panel-default post">
     <div class="panel-heading">{{ post.author }}</div>
     <div class="panel-body">
+        <!-- request.user 대신 user를 써도 된다 (contexts) -->
         {% if request.user == post.author %}
             <form action="{% url 'post:post_delete' post_pk=post.pk %}" method="POST">
                 {% csrf_token %}
@@ -20,7 +21,7 @@
                 <div><b>{{ comment.author }}</b>: {{ comment.content }}</div>
                 <div>
                     {% if request.user == comment.author %}
-                        <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}" method="POST">
+                        <form action="{% url 'post:comment_delete' comment_pk=comment.pk %}?next={% if post_type == 'list' %}/posts/#post-{{ post.pk }}{% elif post_type == 'detail' %}{% url 'post:post_detail' post_pk=post.pk %}{% endif %}" method="POST" class="form-button-inline">
                             {% csrf_token %}
                             <button class="btn-danger">댓글 삭제</button>
                         </form>

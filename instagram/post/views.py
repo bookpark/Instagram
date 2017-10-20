@@ -78,8 +78,11 @@ def post_delete(request, post_pk):
 
 
 def comment_delete(request, comment_pk):
+    next_path = request.GET.get('next', '').strip()
     comment = Comment.objects.get(pk=comment_pk)
     if request.method == 'POST' and request.user == comment.author:
         comment.delete()
+        if next_path:
+            return redirect(next_path)
         return redirect('post:post_list')
     raise PermissionDenied
