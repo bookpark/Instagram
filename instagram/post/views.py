@@ -1,5 +1,4 @@
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import PostForm, CommentForm
