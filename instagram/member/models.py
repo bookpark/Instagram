@@ -12,6 +12,7 @@ class User(AbstractUser):
     img_profile = models.ImageField(
         upload_to='user',
         blank=True,
+        verbose_name='프로필 사진',
     )
     age = models.IntegerField('나이')
     like_posts = models.ManyToManyField(
