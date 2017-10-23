@@ -18,6 +18,8 @@ class SignupForm(UserCreationForm):
         model = User
         fields = (
             'username',
+            'password1',
+            'password2',
             'img_profile',
             'age',
         )
