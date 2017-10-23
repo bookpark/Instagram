@@ -88,7 +88,7 @@ def post_like_toggle(request, post_pk):
     filtered_like_posts = user.like_posts.filter(pk=post.pk)
     # 존재할 경우, like_posts 목록에서 해당 post 삭제
     if filtered_like_posts.exists():
-        filtered_like_posts.remove()
+        user.like_posts.remove(post)
     # 없을 경우, like_posts 목록에 해당 post 추가
     else:
         user.like_posts.add(post)
