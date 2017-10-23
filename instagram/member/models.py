@@ -8,32 +8,32 @@ class UserManager(DjangoUserManager):
 
 
 class User(AbstractUser):
-    # FileField는 문자열 필드라 null=True가 들어가지 않는다
     img_profile = models.ImageField(
+        '프로필 이미지',
         upload_to='user',
-        blank=True,
-        verbose_name='프로필 사진',
-    )
+        blank=True)
     age = models.IntegerField('나이')
     like_posts = models.ManyToManyField(
         'post.Post',
         verbose_name='좋아요 누른 포스트 목록'
     )
     # 내가 팔로우하고 있는 유저 목록
+    #
     # 내가 A를 follow 한다
     #   나는 A의 follower이며
-    #   A는 나의 following_user이다
+    #   A는 나의 followed_user이다
 
     # 나를 follow하고 있는 사람 목록은
     #   followers
     # 내가 follow하고 있는 사람 목록은
-    #   following_users
+    #   followed_users
     following_users = models.ManyToManyField(
         'self',
         symmetrical=False,
         through='Relation',
-        related_name='followers'
+        related_name='followers',
     )
+
     objects = UserManager()
 
     class Meta:
@@ -41,10 +41,14 @@ class User(AbstractUser):
         verbose_name_plural = f'{verbose_name} 목록'
 
     def follow_toggle(self, user):
+        # 1. 주어진 user가 User객체인지 확인
+        #    아니면 raise ValueError()
+        # 2. 주어진 user를 follow하고 있으면 해제
+        #    안 하고 있으면 follow함
         if not isinstance(user, User):
             raise ValueError('"user" argument must be User instance!')
 
-        relation, relation_created = self.following_user.get_or_create(to_user=user)
+        relation, relation_created = self.following_user_relations.get_or_create(to_user=user)
         if relation_created:
             return True
         relation.delete()
@@ -56,25 +60,32 @@ class User(AbstractUser):
         #         to_user=user,
         #     ).delete()
         # else:
-        #     self.following_user_relations.create(to_user=user)
+        #     # Relation중개모델을 직접 사용하는 방법
         #     Relation.objects.create(
         #         from_user=self,
         #         to_user=user,
         #     )
+        #     # Relation에 대한역참조 매니저를 사용하는 방법
+        #     self.following_user_relations.create(to_user=user)
 
 
 class Relation(models.Model):
+    # User의 follow목록을 가질 수 있도록
+    # MTM에 대한 중개모델을 구성
+    # from_user, to_user, created_at으로 3개의 필드를 사용
     from_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='following_user_relations'
+        related_name='following_user_relations',
     )
     to_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='follower_relations'
+        related_name='follower_relations',
     )
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Relation ('f'from: {self.from_user.username}, 'f'to: {self.to_user.username})'
+        return f'Relation (' \
+               f'from: {self.from_user.username}, ' \
+               f'to: {self.to_user.username})'
