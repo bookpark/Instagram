@@ -79,6 +79,24 @@ def post_delete(request, post_pk):
     raise PermissionDenied
 
 
+def post_like_toggle(request, post_pk):
+    next_path = request.GET.get('next')
+    post = get_object_or_404(Post, pk=post_pk)
+    user = request.user
+
+    # 사용자의 like_posts 목록에서 like_toggle할 post가 있는지 확인
+    filtered_like_posts = user.like_posts.filter(pk=post.pk)
+    # 존재할 경우, like_posts 목록에서 해당 post 삭제
+    if filtered_like_posts.exists():
+        filtered_like_posts.remove()
+    # 없을 경우, like_posts 목록에 해당 post 추가
+    else:
+        user.like_posts.add(post)
+    if next_path:
+        return redirect(next_path)
+    return redirect('post:post_detail', post_pk=post.pk)
+
+
 def comment_delete(request, comment_pk):
     next_path = request.GET.get('next', '').strip()
     comment = Comment.objects.get(pk=comment_pk)

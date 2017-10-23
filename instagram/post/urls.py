@@ -15,14 +15,15 @@ Including another URLconf
 from django.conf.urls import url
 
 from config.views import index
-from post.views import post_list, post_upload, post_detail, post_delete, post_comment, comment_delete
+from post.views import post_list, post_upload, post_detail, post_delete, post_comment, comment_delete, post_like_toggle
 
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^posts/$', post_list, name='post_list'),
-    url(r'posts/(?P<post_pk>\d+)/$', post_detail, name='post_detail'),
-    url(r'^posts/upload/$', post_upload, name='post_upload'),
+    url(r'^posts$', post_list, name='post_list'),
+    url(r'^posts/(?P<post_pk>\d+)/$', post_detail, name='post_detail'),
+    url(r'^posts/upload$', post_upload, name='post_upload'),
     url(r'^posts/(?P<post_pk>\d+)/comments/add/', post_comment, name='post_comment'),
-    url(r'^posts/(?P<post_pk>\d+)/delete/$', post_delete, name='post_delete'),
-    url(r'^posts/(?P<comment_pk>\d+)/comments/delete/', comment_delete, name='comment_delete')
+    url(r'^posts/(?P<post_pk>\d+)/delete$', post_delete, name='post_delete'),
+    url(r'^posts/(?P<post_pk>\d+)/like-toggle$', post_like_toggle, name='post_like_toggle'),
+    url(r'^posts/(?P<comment_pk>\d+)/comments/delete/', comment_delete, name='comment_delete'),
 ]
