@@ -1,6 +1,8 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 
+# from member.decorators import signin_required
+from member.decorators import signin_required
 from .forms import PostForm, CommentForm
 from .models import Post, Comment
 
@@ -79,22 +81,24 @@ def post_delete(request, post_pk):
     raise PermissionDenied
 
 
+@signin_required
 def post_like_toggle(request, post_pk):
-    next_path = request.GET.get('next')
-    post = get_object_or_404(Post, pk=post_pk)
-    user = request.user
+    if request.method == 'POST':
+        next_path = request.GET.get('next')
+        post = get_object_or_404(Post, pk=post_pk)
+        user = request.user
 
-    # 사용자의 like_posts 목록에서 like_toggle할 post가 있는지 확인
-    filtered_like_posts = user.like_posts.filter(pk=post.pk)
-    # 존재할 경우, like_posts 목록에서 해당 post 삭제
-    if filtered_like_posts.exists():
-        user.like_posts.remove(post)
-    # 없을 경우, like_posts 목록에 해당 post 추가
-    else:
-        user.like_posts.add(post)
-    if next_path:
-        return redirect(next_path)
-    return redirect('post:post_detail', post_pk=post.pk)
+        # 사용자의 like_posts 목록에서 like_toggle할 post가 있는지 확인
+        filtered_like_posts = user.like_posts.filter(pk=post.pk)
+        # 존재할 경우, like_posts 목록에서 해당 post 삭제
+        if filtered_like_posts.exists():
+            user.like_posts.remove(post)
+        # 없을 경우, like_posts 목록에 해당 post 추가
+        else:
+            user.like_posts.add(post)
+        if next_path:
+            return redirect(next_path)
+        return redirect('post:post_detail', post_pk=post.pk)
 
 
 def comment_delete(request, comment_pk):

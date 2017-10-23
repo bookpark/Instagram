@@ -30,6 +30,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'post:post_upload' %}">+ Add Post</a></li>
+                        <li><a href="{% url 'member:profile' %}">Profile</a></li>
                         <li><a href="{% url 'member:signout' %}">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'member:signin' %}">Login</a></li>

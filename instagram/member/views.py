@@ -1,5 +1,7 @@
 from django.contrib.auth import logout, get_user_model, login
 # from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from member.forms import SignupForm, SigninForm
@@ -25,16 +27,13 @@ def signup(request):
 
 
 def signin(request):
-    """
-    is_valid()에서 주어진 username/password를 사용한 authenticate 실행
-    성공시 login(request) method를 사용할 수 있음
-    :param request:
-    :return:
-    """
+    next_path = request.GET.get('next')
     if request.method == 'POST':
         form = SigninForm(request.POST)
         if form.is_valid():
             form.signin(request)
+            if next_path:
+                return redirect(next_path)
             return redirect('post:post_list')
     else:
         form = SigninForm
@@ -47,3 +46,8 @@ def signin(request):
 def signout(request):
     logout(request)
     return redirect('post:post_list')
+
+
+@login_required
+def profile(request):
+    return HttpResponse(f'User profile page {request.user}')
