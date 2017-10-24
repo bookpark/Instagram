@@ -1,4 +1,4 @@
-from pprint import pprint
+from typing import NamedTuple
 
 import requests
 from django.contrib.auth import logout, get_user_model, login
@@ -61,25 +61,57 @@ def profile(request):
 
 
 def facebook_login(request):
+    class AccessTokenInfo(NamedTuple):
+        access_token: str
+        token_type: str
+        expires_in: str
+
+    class DebugTokenInfo(NamedTuple):
+        app_id: str
+        application: str
+        expires_at: int
+        is_valid: bool
+        issued_at: int
+        scopes: list
+        type: str
+        user_id: str
+
     app_id = settings.FACEBOOK_APP_ID
     app_secret_code = settings.FACEBOOK_APP_SECRET_CODE
+    app_access_token = f'{app_id}|{app_secret_code}'
     code = request.GET.get('code')
 
-    # 사용자가 페이스북에 로그인하기 위한 링크에 있던 'redirect_url' GET 파라미터의 값과 동일한 값
-    redirect_uri = '{scheme}://{host}{relative_url}'.format(
-        scheme=request.scheme,
-        host=request.META['HTTP_HOST'],
-        relative_url=reverse('member:facebook_login'),
-    )
-    print('redirect_uri:', redirect_uri)
-    url_access_token = 'https://graph.facebook.com/v2.10/oauth/access_token'
-    params_access_token = {
-        'client_id': app_id,
-        'redirect_uri': redirect_uri,
-        'client_secret': app_secret_code,
-        'code': code,
+    def get_access_token_info(code):
+        # 사용자가 페이스북에 로그인하기 위한 링크에 있던 'redirect_url' GET 파라미터의 값과 동일한 값
+        redirect_uri = '{scheme}://{host}{relative_url}'.format(
+            scheme=request.scheme,
+            host=request.META['HTTP_HOST'],
+            relative_url=reverse('member:facebook_login'),
+        )
+        print('redirect_uri:', redirect_uri)
+
+        # 액세스 토큰
+        url_access_token = 'https://graph.facebook.com/v2.10/oauth/access_token'
+        params_access_token = {
+            'client_id': app_id,
+            'redirect_uri': redirect_uri,
+            'client_secret': app_secret_code,
+            'code': code,
+        }
+        response = requests.get(url_access_token, params_access_token)
+        return AccessTokenInfo(**response.json())
+
+    # 전달 받은 code 값으로 AccessTokenInfo namedtuple 반환
+    token_info = get_access_token_info(code)
+
+    # namedtuple에서 'access_token'키의 값을 가져옴
+    access_token = token_info.access_token
+
+    url_debug_token = 'https://graph.facebook.com/debug_token'
+    params_debug_token = {
+        'input_token': access_token,
+        'access_token': app_access_token,
     }
-    response = requests.get(url_access_token, params_access_token)
-    result = response.json()
-    pprint(result)
-    return HttpResponse(result)
+    response = requests.get(url_debug_token, params_debug_token)
+    debug_token_info = DebugTokenInfo(**response.json()['data'])
+    print(debug_token_info)
