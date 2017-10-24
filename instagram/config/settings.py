@@ -54,6 +54,10 @@ LOGIN_URL = 'member:signin'
 # dict 변수의 django > secret_key에 해당하는 value를 SECRET_KEY 변수에 할당
 SECRET_KEY = config_secret_common['django']['secret_key']
 
+# Facebook
+FACEBOOK_APP_ID = config_secret_common['facebook']['app_id']
+FACEBOOK_APP_SECRET_CODE = config_secret_common['facebook']['secret_code']
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

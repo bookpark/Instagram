@@ -23,11 +23,11 @@
                     <button class="btn btn-default" aria-label="Left Align">
                         <span
                                 class="glyphicon
-                                    {% if post in user.like_posts.all %}
-                                        glyphicon-heart
-                                    {% else %}
-                                        glyphicon-heart-empty
-                                    {% endif %}"
+                                {% if post in user.like_posts.all %}
+                                    glyphicon-heart
+                                {% else %}
+                                    glyphicon-heart-empty
+                                {% endif %}"
                                 aria-hidden="true">
                         </span>
                     </button>
