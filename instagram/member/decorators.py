@@ -1,10 +1,12 @@
+from functools import wraps
 from urllib.parse import urlparse
 
 from django.shortcuts import redirect
 from django.urls import reverse
 
 
-def signin_required(view_func, login_url=None):
+def signin_required(view_func):
+    @wraps(view_func)
     def wrapped_view_func(*args, **kwargs):
         request = args[0]
         if not request.user.is_authenticated:
