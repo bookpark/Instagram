@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from config import settings
-from config.settings import FACEBOOK_APP_ID
+from config.settings import FACEBOOK_APP_ID, FACEBOOK_SCOPE
 from member.forms import SignupForm, SigninForm
 
 # User model을 가져올 때는 이 함수를 써서 import 하는 것을 추천
@@ -46,6 +46,7 @@ def signin(request):
     context = {
         'form': form,
         'facebook_app_id': FACEBOOK_APP_ID,
+        'scope': FACEBOOK_SCOPE,
     }
     return render(request, 'member/login.html', context)
 
@@ -116,4 +117,19 @@ def facebook_login(request):
     access_token = access_token_info.access_token
     # DebugTokenInfo 가져오기
     debug_token_info = get_debug_token_info(access_token)
-    return HttpResponse(debug_token_info)
+
+    # 유저 정보 가져오기
+    user_info_fields = [
+        'id',
+        'name',
+        'picture',
+        'email',
+    ]
+    url_graph_user_info = 'https://graph.facebook.com/me'
+    params_graph_user_info = {
+        'fields': ','.join(user_info_fields),
+        'access_token': access_token,
+    }
+    response = requests.get(url_graph_user_info, params_graph_user_info)
+    result = response.json()
+    return HttpResponse(result.items())
