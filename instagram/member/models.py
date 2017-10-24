@@ -8,6 +8,16 @@ class UserManager(DjangoUserManager):
 
 
 class User(AbstractUser):
+    USER_TYPE_DJANGO = 'd'
+    USER_TYPE_FACEBOOK = 'f'
+    CHOICES_USER_TYPE = (
+        (USER_TYPE_DJANGO, 'Django'),
+        (USER_TYPE_FACEBOOK, 'Facebook')
+    )
+    user_type = models.CharField(
+        max_length=1,
+        choices=CHOICES_USER_TYPE,
+    )
     img_profile = models.ImageField(
         '프로필 이미지',
         upload_to='user',
