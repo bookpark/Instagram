@@ -101,17 +101,19 @@ def facebook_login(request):
         response = requests.get(url_access_token, params_access_token)
         return AccessTokenInfo(**response.json())
 
+    def get_debug_token_info(token):
+        url_debug_token = 'https://graph.facebook.com/debug_token'
+        params_debug_token = {
+            'input_token': token,
+            'access_token': app_access_token,
+        }
+        response = requests.get(url_debug_token, params_debug_token)
+        return DebugTokenInfo(**response.json()['data'])
+
     # 전달 받은 code 값으로 AccessTokenInfo namedtuple 반환
-    token_info = get_access_token_info(code)
-
+    access_token_info = get_access_token_info(code)
     # namedtuple에서 'access_token'키의 값을 가져옴
-    access_token = token_info.access_token
-
-    url_debug_token = 'https://graph.facebook.com/debug_token'
-    params_debug_token = {
-        'input_token': access_token,
-        'access_token': app_access_token,
-    }
-    response = requests.get(url_debug_token, params_debug_token)
-    debug_token_info = DebugTokenInfo(**response.json()['data'])
-    print(debug_token_info)
+    access_token = access_token_info.access_token
+    # DebugTokenInfo 가져오기
+    debug_token_info = get_debug_token_info(access_token)
+    return HttpResponse(debug_token_info)
