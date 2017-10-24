@@ -77,12 +77,18 @@ def facebook_login(request):
         type: str
         user_id: str
 
+    class UserInfo:
+        def __init__(self, data):
+            self.id = data['id']
+            self.email = data.get('email', '')
+            self.url_picture = data['picture']['data']['url']
+
     app_id = settings.FACEBOOK_APP_ID
     app_secret_code = settings.FACEBOOK_APP_SECRET_CODE
     app_access_token = f'{app_id}|{app_secret_code}'
     code = request.GET.get('code')
 
-    def get_access_token_info(code):
+    def get_access_token_info(code_value):
         # 사용자가 페이스북에 로그인하기 위한 링크에 있던 'redirect_url' GET 파라미터의 값과 동일한 값
         redirect_uri = '{scheme}://{host}{relative_url}'.format(
             scheme=request.scheme,
@@ -97,7 +103,7 @@ def facebook_login(request):
             'client_id': app_id,
             'redirect_uri': redirect_uri,
             'client_secret': app_secret_code,
-            'code': code,
+            'code': code_value,
         }
         response = requests.get(url_access_token, params_access_token)
         return AccessTokenInfo(**response.json())
@@ -132,4 +138,21 @@ def facebook_login(request):
     }
     response = requests.get(url_graph_user_info, params_graph_user_info)
     result = response.json()
-    return HttpResponse(result.items())
+    user_info = UserInfo(data=result)
+
+    # 페이스북으로 가입한 유저의 username
+    # fb_<facebook_user_id>
+    username = f'fb_{user_info.id}'
+    # 위 username에 해당하는 User가 있는지 검사
+    if User.objects.filter(username=username).exists():
+        # 있으면 user에 해당 유저를 할당
+        user = User.objects.get(username=username)
+    else:
+        user = User.objects.create_user(
+            user_type=User.USER_TYPE_FACEBOOK,
+            username=username,
+            age=0
+        )
+    # user를 로그인 시키고 post_list 페이지로 이동
+    login(request, user)
+    return redirect('post:post_list')
