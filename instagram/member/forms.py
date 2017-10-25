@@ -18,6 +18,7 @@ class SignupForm(UserCreationForm):
         model = User
         fields = (
             'username',
+            'nickname',
             'password1',
             'password2',
             'img_profile',
@@ -25,6 +26,11 @@ class SignupForm(UserCreationForm):
         )
         widgets = {
             'username': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'nickname': forms.TextInput(
                 attrs={
                     'class': 'form-control'
                 }

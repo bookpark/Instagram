@@ -18,6 +18,10 @@ class User(AbstractUser):
         max_length=1,
         choices=CHOICES_USER_TYPE,
     )
+    nickname = models.CharField(
+        '닉네임',
+        max_length=20,
+    )
     img_profile = models.ImageField(
         '프로필 이미지',
         upload_to='user',
