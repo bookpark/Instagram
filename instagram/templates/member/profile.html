@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        {% if target_user.img_profile %}
+            <img src="{{ target_user.img_profile.url }}" alt="">
+        {% else %}
+            <img src="">
+        {% endif %}
+    </div>
+    <div>
+        {{ target_user.nickname }}
+    </div>
+    <div class="panel-body">
+        {% for post in target_user.post_set.all %}
+            <img src="{{ post.photo.url }}" class="img-post">
+        {% endfor %}
+    </div>
+{% endblock %}

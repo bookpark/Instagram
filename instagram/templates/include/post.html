@@ -1,5 +1,7 @@
 <div id="post-{{ post.pk }}" class="panel panel-default post">
-    <div class="panel-heading">{{ post.author }}</div>
+    <div class="panel-heading">
+        <a href="{% url 'member:profile' user_pk=post.author.pk %}">{{ post.author }}</a>
+    </div>
     <div class="panel-body">
         <!-- request.user 대신 user를 써도 된다 (contexts) -->
         {% if request.user == post.author %}

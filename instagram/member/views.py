@@ -4,8 +4,7 @@ import requests
 from django.contrib.auth import logout, get_user_model, login
 # from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from config import settings
@@ -13,6 +12,8 @@ from config.settings import FACEBOOK_APP_ID, FACEBOOK_SCOPE
 from member.forms import SignupForm, SigninForm
 
 # User model을 가져올 때는 이 함수를 써서 import 하는 것을 추천
+from post.models import Post
+
 User = get_user_model()
 
 
@@ -57,8 +58,12 @@ def signout(request):
 
 
 @login_required
-def profile(request):
-    return HttpResponse(f'User profile page {request.user}')
+def profile(request, user_pk):
+    target_user = User.objects.get(pk=user_pk)
+    context = {
+        'target_user': target_user,
+    }
+    return render(request, 'member/profile.html', context)
 
 
 def facebook_login(request):
