@@ -1,6 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
     <div>
+        <div class="btn-container">
+            {% if not request.user == target_user %}
+                <form action="{% url 'member:follow_toggle' user_pk=target_user.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-default" aria-label="Left Align">
+                        <span
+                                class="glyphicon
+                                {% if target_user in user.following_users.all %}
+                                    glyphicon-star
+                                {% else %}
+                                    glyphicon-star-empty
+                                {% endif %}"
+                                aria-hidden="true">
+                        </span>
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <div>
         {% if target_user.img_profile %}
             <img src="{{ target_user.img_profile.url }}" alt="">
         {% else %}
