@@ -21,6 +21,7 @@ class User(AbstractUser):
     nickname = models.CharField(
         '닉네임',
         max_length=20,
+        # unique=True,
     )
     img_profile = models.ImageField(
         '프로필 이미지',
