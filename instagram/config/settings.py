@@ -31,10 +31,6 @@ f.close()
 # json.loads(<json string>) 함수 호출, JSON 텍스트 파일의 내용을 Python dict 형태로 변환, config_secret_common 변수에 할당
 config_secret_common = json.loads(config_secret_common_str)
 
-# instagram_project/instagram/media/
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
 # instagram_project/instagram/templates
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
@@ -54,6 +50,15 @@ FACEBOOK_SCOPE = [
     'public_profile',
     'email',
 ]
+
+# AWS
+AWS_ACCESS_KEY_ID = config_secret_common['aws']['access_key_id']
+AWS_SECRET_ACCESS_KEY = config_secret_common['aws']['secret_access_key']
+AWS_STORAGE_BUCKET_NAME = config_secret_common['aws']['s3_bucket_name']
+
+# S3 FileStorage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -160,3 +165,7 @@ STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+
+# instagram_project/instagram/media/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
