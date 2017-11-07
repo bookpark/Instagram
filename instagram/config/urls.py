@@ -17,10 +17,13 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from post.apis import PostList
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('post.urls', namespace='post')),
     url(r'^', include('member.urls', namespace='member')),
+    url(r'^api/posts/$', PostList.as_view(), name='api-post')
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
