@@ -1,3 +1,4 @@
+import filecmp
 import io
 import os
 from random import randint
@@ -112,6 +113,12 @@ class PostListViewTest(APILiveServerTestCase):
 
         # 1개의 포스트가 생성되었는지 확인
         self.assertEqual(Post.objects.count(), 1)
+
+        # 업로드를 시도한 파일 (path 경로의 파일)과
+        # 실제 업로드 된 파일 (새로 생성 된 Post의 photo 필드에 있는 파일)이
+        # 같은 파일인지 확인
+        post = Post.objects.get(pk=response.data['pk'])
+        self.assertTrue(filecmp.cmp(path, post.photo.file.name))
 
 # # PostList
 # # Request 객체를 생성 ('api/posts/')
