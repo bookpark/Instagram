@@ -37,6 +37,11 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # Custom user model 사용
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:signin'
+# 기본 인증 백엔드에 페이스북 인증 백엔드를 추가함
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'member.backends.FacebookBackend',
+]
 
 # DRF
 REST_FRAMEWORK = {

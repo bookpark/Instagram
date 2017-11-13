@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^(?P<user_pk>\d+)/profile/$', views.profile, name='profile'),
     url(r'^facebook-login/$', views.facebook_login, name='facebook_login'),
     url(r'^(?P<user_pk>\d+)/follow-toggle$', views.follow_toggle, name='follow_toggle'),
+    url(r'^front-facebook-login/$', views.FrontFacebookLogin.as_view(), name='front-facebook-login')
 ]
