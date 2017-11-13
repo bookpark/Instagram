@@ -33,4 +33,4 @@ class Login(APIView):
                 'username': username,
                 'password': password,
             }
-            return Response(data, status.HTTP_401_UNAUTHORIZED)
+            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
