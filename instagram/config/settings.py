@@ -38,6 +38,14 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:signin'
 
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # dict 변수의 django > secret_key에 해당하는 value를 SECRET_KEY 변수에 할당
 SECRET_KEY = config_secret_common['django']['secret_key']
@@ -183,12 +191,3 @@ STATICFILES_DIRS = [
 # instagram_project/instagram/media/
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-
-# REST framework
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
