@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'storages',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 
     'post',
@@ -182,3 +183,12 @@ STATICFILES_DIRS = [
 # instagram_project/instagram/media/
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# REST framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
