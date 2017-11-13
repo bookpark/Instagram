@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from member.apis import Login
+from member.apis import Login, Signup
 from post.apis import PostList
 from .views import index
 
@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^members/', include('member.urls', namespace='member')),
     url(r'^api/posts/$', PostList.as_view(), name='api-post'),
     url(r'^api/member/login/$', Login.as_view(), name='api-login'),
+    url(r'^api/member/signup/$', Signup.as_view(), name='api-signup'),
 ]
 urlpatterns += static(
     settings.MEDIA_URL,
