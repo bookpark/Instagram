@@ -7,4 +7,10 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = (
+            'pk',
+            'username',
+            'nickname',
+            'img_profile',
+            'age',
+        )
