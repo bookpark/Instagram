@@ -16,6 +16,11 @@ class PostList(generics.ListCreateAPIView):
         serializer.save(author=self.request.user)
 
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+class PostDetail(generics.RetrieveDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class PostLikeToggle(generics.GenericAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
