@@ -4,7 +4,7 @@ from .. import views
 
 urlpatterns = [
     # Post
-    url(r'^', views.post_list, name='post_list'),
+    url(r'^$', views.post_list, name='post_list'),
     url(r'^upload/$', views.post_upload, name='post_upload'),
     url(r'^(?P<post_pk>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^(?P<post_pk>\d+)/delete$', views.post_delete, name='post_delete'),
