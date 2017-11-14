@@ -106,4 +106,8 @@ class FacebookLogin(APIView):
                 username=f'fb_{request.data["facebook_user_id"]}',
                 user_type=User.USER_TYPE_FACEBOOK,
             )
-        return Response(UserSerializer(user).data)
+        data = {
+            'user': UserSerializer(user).data,
+            'token': user.token,
+        }
+        return Response(data)

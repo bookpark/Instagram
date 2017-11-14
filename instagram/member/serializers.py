@@ -32,7 +32,6 @@ class SignupSerializer(serializers.ModelSerializer):
             'password1',
             'password2',
             'age',
-            'token',
         )
 
     def validate(self, data):
@@ -49,6 +48,16 @@ class SignupSerializer(serializers.ModelSerializer):
             age=validated_data['age'],
         )
 
-        # @staticmethod
-        # def get_token(obj):
-        #     return Token.objects.create(user=obj).key
+    # @staticmethod
+    # def get_token(obj):
+    #     return Token.objects.create(user=obj).key
+
+    def to_representation(self, instance):
+        # serialize 된 형태를 결정
+        # super().to_representation()은 serialize된 기본 형태(dict)
+        ret = super().to_representation(instance)
+        data = {
+            'user': ret,
+            'token': instance.token,
+        }
+        return data
