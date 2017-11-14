@@ -9,6 +9,7 @@ __all__ = [
     'comment_delete',
 ]
 
+
 def post_comment(request, post_pk):
     if not request.user.is_authenticated:
         return redirect('member:signin')
