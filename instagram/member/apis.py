@@ -3,7 +3,7 @@ from typing import NamedTuple
 import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.compat import authenticate
 from rest_framework.exceptions import APIException
@@ -44,13 +44,18 @@ class Login(APIView):
             return Response(data, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class Signup(APIView):
-    def post(self, request):
-        serializer = SignupSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class Signup(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = SignupSerializer
+
+
+# class Signup(APIView):
+#     def post(self, request):
+#         serializer = SignupSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FacebookLogin(APIView):

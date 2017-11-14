@@ -16,6 +16,7 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
+from rest_framework.authtoken import views
 
 from member.apis import Login, Signup, FacebookLogin
 from post.apis import PostList
@@ -26,6 +27,8 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^posts/', include('post.urls', namespace='post')),
     url(r'^members/', include('member.urls', namespace='member')),
+
+    url(r'^api/auth-token/$', views.obtain_auth_token, name='auth-token'),
     url(r'^api/posts/$', PostList.as_view(), name='api-post'),
     url(r'^api/member/login/$', Login.as_view(), name='api-login'),
     url(r'^api/member/signup/$', Signup.as_view(), name='api-signup'),
