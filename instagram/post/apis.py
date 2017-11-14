@@ -1,6 +1,6 @@
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import generics, permissions
 
+from utils.permissions import IsAuthorOrReadOnly
 from .models import Post
 from .serializers import PostSerializer
 
@@ -9,7 +9,7 @@ class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (
-        IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticatedOrReadOnly,
     )
 
     def perform_create(self, serializer):
@@ -19,8 +19,6 @@ class PostList(generics.ListCreateAPIView):
 class PostDetail(generics.RetrieveDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
-
-class PostLikeToggle(generics.GenericAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    permission_classes = (
+        IsAuthorOrReadOnly,
+    )
