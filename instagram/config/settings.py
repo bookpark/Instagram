@@ -84,7 +84,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '.ap-northeast-2.elasticbeanstalk.com',
+    '.elasticbeanstalk.com',
+    'api.booki.kr',
 ]
 
 # Application definition
