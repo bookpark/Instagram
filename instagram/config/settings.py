@@ -84,7 +84,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    '.ap-northeast-2.compute.amazonaws.com',
+    '.ap-northeast-2.elasticbeanstalk.com',
 ]
 
 # Application definition
