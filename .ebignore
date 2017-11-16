@@ -3,6 +3,9 @@
 .config_secret/
 .static_root/
 
+# Front code
+/front/
+
 # Created by https://www.gitignore.io/api/macos,python,django,pycharm
 
 ### Django ###
@@ -218,3 +221,4 @@ venv.bak/
 
 # EB ignore original
 !.config_secret/
+!/front/
