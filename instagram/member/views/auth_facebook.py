@@ -111,7 +111,7 @@ def facebook_login(request):
         )
     # user를 로그인 시키고 post_list 페이지로 이동
     user = authenticate(facebook_user_id=user_info.id)
-    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    login(request, user)
     return redirect('post:post_list')
 
 
