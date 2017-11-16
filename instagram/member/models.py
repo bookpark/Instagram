@@ -1,10 +1,17 @@
 from django.contrib.auth.models import AbstractUser, UserManager as DjangoUserManager
 from django.db import models
+from rest_framework.authtoken.models import Token
 
 
 class UserManager(DjangoUserManager):
     def create_superuser(self, *args, **kwargs):
         return super().create_superuser(age=30, *args, **kwargs)
+
+        # def create_facebook_user(self, facebook_user_id):
+        #     return super().create_user(
+        #             username=f'fb_{facebook_user_id]}',
+        #             user_type=User.USER_TYPE_FACEBOOK,
+        #         )
 
 
 class User(AbstractUser):
@@ -30,6 +37,8 @@ class User(AbstractUser):
     age = models.IntegerField('나이')
     like_posts = models.ManyToManyField(
         'post.Post',
+        related_name='like_users',
+        blank=True,
         verbose_name='좋아요 누른 포스트 목록'
     )
     # 내가 팔로우하고 있는 유저 목록
@@ -54,6 +63,10 @@ class User(AbstractUser):
     class Meta:
         verbose_name = '사용자'
         verbose_name_plural = f'{verbose_name} 목록'
+
+    @property
+    def token(self):
+        return Token.objects.get_or_create(user=self)[0].key
 
     def follow_toggle(self, user):
         # 1. 주어진 user가 User객체인지 확인

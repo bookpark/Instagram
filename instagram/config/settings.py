@@ -37,6 +37,19 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # Custom user model 사용
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = 'member:signin'
+# 기본 인증 백엔드에 페이스북 인증 백엔드를 추가함
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'member.backends.FacebookBackend',
+]
+
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # dict 변수의 django > secret_key에 해당하는 value를 SECRET_KEY 변수에 할당
@@ -58,13 +71,13 @@ AWS_STORAGE_BUCKET_NAME = config_secret_common['aws']['s3_bucket_name']
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'ap-northeast-2'
 
-# AWS Storage
-STATICFILES_LOCATION = 'static'
-MEDIAFILES_LOCATION = 'media'
-
-# S3 FileStorage
-DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
-STATICFILES_STORAGE = 'config.storages.StaticStorage'
+# # AWS Storage
+# STATICFILES_LOCATION = 'static'
+# MEDIAFILES_LOCATION = 'media'
+#
+# # S3 FileStorage
+# DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
+# STATICFILES_STORAGE = 'config.storages.StaticStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,12 +100,16 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'storages',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
 
     'post',
     'member',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -100,6 +117,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'localhost:3001',
 ]
 
 ROOT_URLCONF = 'config.urls'
