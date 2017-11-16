@@ -202,5 +202,5 @@ STATICFILES_DIRS = [
 ]
 
 # instagram_project/instagram/media/
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 MEDIA_URL = '/media/'

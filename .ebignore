@@ -2,6 +2,7 @@
 .idea/
 .config_secret/
 .static_root/
+.media/
 
 # Front code
 /front/
