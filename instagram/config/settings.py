@@ -64,6 +64,10 @@ FACEBOOK_SCOPE = [
     'email',
 ]
 
+# CoolSMS
+COOLSMS_API_KEY = config_secret_common['coolsms']['api_key']
+COOLSMS_API_SECRET = config_secret_common['coolsms']['api_secret']
+
 # # AWS
 # AWS_ACCESS_KEY_ID = config_secret_common['aws']['access_key_id']
 # AWS_SECRET_ACCESS_KEY = config_secret_common['aws']['secret_access_key']
