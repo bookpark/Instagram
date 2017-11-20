@@ -11,7 +11,9 @@ class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        # permissions.IsAuthenticatedOrReadOnly,
+        # 인증 된 사용자만 리스트를 볼 수 있음
+        permissions.IsAuthenticated,
     )
 
     def perform_create(self, serializer):

@@ -72,7 +72,7 @@ class FacebookLogin(APIView):
             application: str
             expires_at: int
             is_valid: bool
-            issued_at: int
+            # issued_at: int
             scopes: list
             type: str
             user_id: str
@@ -105,6 +105,7 @@ class FacebookLogin(APIView):
             user = User.objects.create_user(
                 username=f'fb_{request.data["facebook_user_id"]}',
                 user_type=User.USER_TYPE_FACEBOOK,
+                age=20,
             )
         data = {
             'user': UserSerializer(user).data,
