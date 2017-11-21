@@ -2,6 +2,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 
 from member.serializers import UserSerializer
+from utils.pagination import PostPagination
 from utils.permissions import IsAuthorOrReadOnly
 from .models import Post
 from .serializers import PostSerializer
@@ -15,6 +16,7 @@ class PostList(generics.ListCreateAPIView):
         # 인증 된 사용자만 리스트를 볼 수 있음
         permissions.IsAuthenticated,
     )
+    pagination_class = PostPagination
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
