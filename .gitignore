@@ -2,7 +2,8 @@
 .idea/
 .config_secret/
 .static_root/
-instagram/utils/sms/
+.media/
+secrets.tar
 
 # Created by https://www.gitignore.io/api/macos,python,django,pycharm
 
