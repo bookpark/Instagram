@@ -3,12 +3,16 @@
 .config_secret/
 .static_root/
 .media/
+<<<<<<< HEAD
 
 # Travis CI
 secrets.tar
 
 # Front code
 /front/
+=======
+secrets.tar
+>>>>>>> api
 
 # Created by https://www.gitignore.io/api/macos,python,django,pycharm
 

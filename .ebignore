@@ -4,6 +4,9 @@
 .static_root/
 .media/
 
+# Travis
+secrets.tar
+
 # Front code
 /front/
 
